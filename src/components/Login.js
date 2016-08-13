@@ -4,7 +4,13 @@ import React from "react";
 import { Card } from 'antd';
 import { Row, Col } from 'antd';
 import LoginForm from './LoginForm';
+import { hashHistory } from 'react-router';
 
+const currentUser = Bmob.User.current();
+
+if (currentUser) {
+  hashHistory.push("/");
+}
 
 class Login extends React.Component{
   constructor(props) {
@@ -12,6 +18,7 @@ class Login extends React.Component{
   }
 
   render() {
+
 
     return(
       <Row type="flex" justify="space-around" align="middle" style={{ background: '#ECECEC', height: "100%", textAlign: "center" }}>

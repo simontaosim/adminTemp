@@ -45,9 +45,20 @@ class RegForm extends React.Component{
      });
 
    }
+   regBtnShow() {
+     if (this.props.hasButton) {
+       return (
+          <Button type="primary" htmlType="submit">注册</Button>
+       );
+     }
+     return(
+       <span></span>
+     );
+   }
 
   render() {
      const { getFieldProps } = this.props.form;
+
     return (
       <Spin spinning={this.state.loading} size="small">
         <Spin spinning={this.state.loading} />
@@ -75,11 +86,8 @@ class RegForm extends React.Component{
            />
          </FormItem>
 
-         <Button type="primary" htmlType="submit">注册</Button>
-         <p>已有账户？</p>
-         <Button type="dashed" style={{position: "relative", left: "30px"}}
-         onClick={()=>{ hashHistory.push("login") }}
-         >登录</Button>
+         {this.regBtnShow()}
+
        </Form>
      </Spin>
     );

@@ -4,6 +4,8 @@ import { Form, Input, Button, Checkbox, message } from 'antd';
 const FormItem = Form.Item;
 import { hashHistory } from 'react-router';
 
+const currentUser = Bmob.User.current();
+
 class LoginForm extends React.Component{
   constructor(props) {
     super(props);
@@ -24,8 +26,10 @@ class LoginForm extends React.Component{
    }
 
    handleLogInSuccess(user) {
-     message.success("登录成功！");
-     hashHistory.push('/')
+     
+       message.success("登录成功！");
+       hashHistory.push('/');
+
    }
 
    handleLogInError(user, error){
@@ -36,7 +40,9 @@ class LoginForm extends React.Component{
      });
    }
 
+
   render() {
+
      const { getFieldProps } = this.props.form;
     return (
       <Form inline onSubmit={this.handleSubmit.bind(this)}>

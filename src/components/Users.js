@@ -3,6 +3,7 @@
 import React from "react";
 import { Card, Table, Spin, Button } from 'antd';
 import { Row, Col } from 'antd';
+import NewUser from './NewUser';
 
 const dataSource = [{
   key: '1',
@@ -44,6 +45,7 @@ class Users extends React.Component{
     super(props);
     this.state = {
       loading: true,
+      newUserVisible: false,
       dataSource: []
     };
   }
@@ -83,13 +85,22 @@ class Users extends React.Component{
     });
   }
 
+  handleNewUserOnOk() {
+
+  }
+  handleNewUserOnCancel() {
+    this.setState({newUserVisible: false});
+  }
+
   render() {
 
     return(
       <div>
         <Row type="flex" justify="center" align="middle" style={{ background: '#ECECEC', height: "100%", textAlign: "center" }}>
           <Col span={4}>
-            <Button  type="primary">新增用户</Button>
+            <Button  type="primary" onClick={()=> this.setState({newUserVisible: true}) }>新增用户</Button>
+            <NewUser visible={this.state.newUserVisible} onOk={this.handleNewUserOnOk.bind(this)}
+            onCancel={this.handleNewUserOnCancel.bind(this)}/>
           </Col>
           <Col span={20}>
 

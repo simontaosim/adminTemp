@@ -2,7 +2,11 @@
 
 import React from "react";
 import { Row, Col } from 'antd';
-import G2 from "g2"
+import G2 from "g2";
+
+
+
+
 
 const data= [
     {"day": '2015/9/1',  "share": 10},
@@ -45,6 +49,10 @@ class DashBoard extends React.Component{
     super(props);
   }
 
+  componentWillMount() {
+
+  }
+
   componentDidMount(){
       this.drawUserRegChart();
   }
@@ -79,6 +87,7 @@ class DashBoard extends React.Component{
   }
 
   render() {
+
 
     return(
       <div>

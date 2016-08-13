@@ -8,7 +8,10 @@ import './Layout.css';
 import "antd/dist/antd.min.css"
 
 const SubMenu = Menu.SubMenu;
-const currentUser = Bmob.User.current();
+var currentUser = null;
+var currentUserEmail  = "example@example.com"
+
+
 
 let mainTitleStyle = {
   position: "relative",
@@ -27,17 +30,15 @@ class Layout extends React.Component {
       collapse: !this.state.collapse,
     })
   }
-  componentWillMount(){
-    if (currentUser) {
-      // console.log(currentUser);
-    }else {
-      hashHistory.replace("login");
-    }
-  }
 
   handleLogOutBtnClicked(e){
     if (e.key == "logout") {
       Bmob.User.logOut();
+      if (currentUser) {
+        hashHistory.replace("/");
+      }else{
+        hashHistory.replace("login");
+      }
       hashHistory.replace("login");
     }
   }
@@ -49,6 +50,27 @@ class Layout extends React.Component {
     if (e.key=="roles") {
       hashHistory.push("roles")
 
+    }
+  }
+  componentWillMount(){
+
+    currentUser = Bmob.User.current();
+
+
+    if (currentUser) {
+      currentUserEmail = currentUser.attributes.email
+    }else {
+      hashHistory.replace("login");
+    }
+
+  }
+  componentDidMount(){
+    currentUser = Bmob.User.current();
+    //获取第二次session保证能够获取到
+    if (currentUser) {
+      currentUserEmail = currentUser.attributes.email
+    }else {
+      hashHistory.replace("login");
     }
   }
   generateMainTitle(pathname){
@@ -99,6 +121,7 @@ class Layout extends React.Component {
 
 
     return (
+
       <div className={collapse ? "ant-layout-aside ant-layout-aside-collapse" : "ant-layout-aside"}>
         <aside className="ant-layout-sider">
           <div className="ant-layout-logo" style={{textAlign: "center"}}><Link to="/">仪表盘</Link></div>
@@ -130,7 +153,7 @@ class Layout extends React.Component {
           <div className="ant-layout-header">
               {this.generateMainTitle(location.pathname)}
               <Dropdown.Button overlay={headerUserMenu}  style={{float: "right", margin: "5px"}} type="primary">
-                  {currentUser.attributes.email}
+                  {currentUserEmail}
               </Dropdown.Button>
           </div>
           <div className="ant-layout-container">
