@@ -18,7 +18,7 @@ class Reg extends React.Component{
       <Row type="flex" justify="space-around" align="middle" style={{ background: '#ECECEC', height: "100%" }}>
         <Col span={16}>
           <Card title="在可思哥数据平台上注册" bordered={false} style={{ width: "100%", height: "auto" }}>
-          <RegForm hasButton={true}/>
+          <RegForm />
           <p>已有账户？</p>
           <Button type="dashed" style={{position: "relative", left: "30px"}}
           onClick={()=>{ hashHistory.push("login") }}

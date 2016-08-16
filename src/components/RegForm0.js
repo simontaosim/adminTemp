@@ -7,9 +7,9 @@ import { push, goBack } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { hashHistory } from 'react-router';
 
-import {changeUsername} from '../actions/RegForm';
+import {changeFormData, changeFormLoading} from '../actions/RegForm';
 
-class RegForm extends React.Component{
+class RegForm0 extends React.Component{
   constructor(props) {
     super(props);
     this.state ={
@@ -20,21 +20,9 @@ class RegForm extends React.Component{
 
   handleSubmit(e) {
      e.preventDefault();
-     this.setState({loading: true});
-     let user = new Bmob.User();
-      user.set("username", this.props.form.getFieldsValue().username);
-      user.set("password", this.props.form.getFieldsValue().password);
-      user.set("email", this.props.form.getFieldsValue().email);
 
-      // other fields can be set just like with Bmob.Object
-      // user.set("phone", "415-392-0202");
-
-      user.signUp(null, {
-        success: (user) => this.handleSignUpSuccess(user),
-        error: (user,error) => this.handleSignUpError(user,error)
-      });
    }
-   
+
    handleSignUpSuccess(user) {
      message.success('注册成功！立即登录');
      this.setState({loading: false});
@@ -51,40 +39,44 @@ class RegForm extends React.Component{
      });
 
    }
+   componentDidMount() {
+
+   }
 
   render() {
 
      const { getFieldProps } = this.props.form;
-     const { dispatch, regForm } = this.props;
+     const { dispatch, regForm, loading } = this.props;
 
     return (
-      <Spin spinning={this.state.loading} size="small">
-        <Spin spinning={this.state.loading} />
-        <Spin spinning={this.state.loading} size="large" />
+      <Spin spinning={this.props.loading} size="small">
+        <Spin spinning={this.props.loading} />
+        <Spin spinning={this.props.loading} size="large" />
         <Form horizontal onSubmit={this.handleSubmit.bind(this)}>
         <FormItem
           label="邮箱"
+          required = {true}
         >
           <Input placeholder="请输入邮箱"
-            {...getFieldProps('email')}
+            {...getFieldProps('email')} value={this.props.regForm.email.value}
           />
         </FormItem>
          <FormItem
            label="密码"
+             required = {true}
          >
            <Input type="password" placeholder="请输入密码"
-             {...getFieldProps('password')}
+             {...getFieldProps('password')}  value={this.props.regForm.password.value}
            />
          </FormItem>
          <FormItem
            label="账户"
+             required = {true}
          >
            <Input placeholder="请输入账户名"
-             {...getFieldProps('username')}
+             {...getFieldProps('username')}  value={this.props.regForm.username.value}
            />
          </FormItem>
-
-         <Button type="primary" htmlType="submit">注册</Button>
        </Form>
      </Spin>
     );
@@ -92,9 +84,16 @@ class RegForm extends React.Component{
 }
 function mapStateToProps(state) {
   return {
-    regForm: state.RegForm
+    regForm: state.RegForm,
+    loading: state.RegForm.isLoading
    };
 }
+function onFieldsChange(props, fields){
+  const { dispatch } = props;
+  dispatch(changeFormData(fields));
 
-RegForm = Form.create()(RegForm);
-export default connect(mapStateToProps)(RegForm);
+}
+
+
+RegForm0 = Form.create({onFieldsChange})(RegForm0);
+export default connect(mapStateToProps)(RegForm0);
