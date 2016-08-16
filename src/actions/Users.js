@@ -38,7 +38,6 @@ export function deleteUser(id, key){
 
 export function queryLatestUsers(condition){
   return function (dispatch, getState) {
-    let query = new Bmob.Query(Bmob.User);
     let page = condition.pagination;
     let pageSize = page.pageSize;
     let skipNumber = pageSize*(page.current-1);
@@ -49,10 +48,11 @@ export function queryLatestUsers(condition){
         total: total
       }}));
     }
+     dispatch(changeTableLoading(true));
+    let query = new Bmob.Query(Bmob.User);
     query.descending("updatedAt");
     query.limit(pageSize);
     query.skip(skipNumber);
-     dispatch(changeTableLoading(true));
     return query.find(null).then (
       users => dispatch(showUsers(users, total)),
       error => dispatch(showUsersFailed(error))
