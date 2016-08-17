@@ -17,7 +17,6 @@ class LoginForm extends React.Component{
 
   handleSubmit(e) {
      e.preventDefault();
-     console.log('收到表单值：', this.props.form.getFieldsValue());
      Bmob.User.logIn(this.props.form.getFieldsValue().username, this.props.form.getFieldsValue().password, {
       success: (user) => this.handleLogInSuccess(user),
       error: (user, error) => this.handleLogInError(user, error)
@@ -26,7 +25,7 @@ class LoginForm extends React.Component{
    }
 
    handleLogInSuccess(user) {
-     
+
        message.success("登录成功！");
        hashHistory.push('/');
 
